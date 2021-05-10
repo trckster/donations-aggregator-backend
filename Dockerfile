@@ -23,7 +23,7 @@ COPY composer.* artisan ./
 RUN composer install --no-ansi --no-dev --no-interaction --no-plugins --no-progress --no-scripts --optimize-autoloader; \
     composer clearcache
 
-COPY . .
+ADD --chown=$user:$uid . .
 
 RUN composer dump-autoload -o
 
