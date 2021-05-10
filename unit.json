@@ -1,0 +1,18 @@
+{
+    "access_log": "/var/www/unitd.log",
+    "listeners": {
+        "*:80": {
+            "pass": "applications/backend"
+        }
+    },
+    "applications": {
+        "backend": {
+            "type": "php",
+            "processes": 10,
+            "user": "www",
+            "group": "www",
+            "root": "/var/www/public/",
+            "script": "index.php"
+        }
+    }
+}

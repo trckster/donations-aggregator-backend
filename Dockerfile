@@ -3,7 +3,8 @@ FROM nginx/unit:1.23.0-php8.0
 ARG user
 ARG uid
 
-RUN apt update && apt install -y git zip unzip
+RUN apt-get update
+RUN apt-get install -y git zip unzip postgresql libpq-dev sudo && docker-php-ext-install pdo pdo_pgsql
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
@@ -19,4 +20,8 @@ USER $user
 
 COPY . .
 
-CMD php artisan serve
+USER root
+
+RUN unitd --no-daemon --control unix:/var/run/control.unit.sock & \
+    sleep 1; \
+    curl -XPUT --data-binary @unit.json --unix-socket /var/run/control.unit.sock http://localhost/config;
