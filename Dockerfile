@@ -25,6 +25,8 @@ RUN composer install --no-ansi --no-dev --no-interaction --no-plugins --no-progr
 
 COPY . .
 
+RUN composer dump-autoload -o
+
 USER root
 
 RUN unitd --no-daemon --control unix:/var/run/control.unit.sock & \
