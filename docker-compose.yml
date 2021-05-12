@@ -25,6 +25,8 @@ services:
       - ./.env:/var/www/.env
       - ./artisan:/var/www/artisan
       - ./server:/var/www/server
+      - ./tests:/var/www/tests
+      - ./phpunit.xml:/var/www/phpunit.xml
     ports:
     - "127.0.0.1:8000:8000"
     depends_on:
