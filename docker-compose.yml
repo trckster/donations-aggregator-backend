@@ -1,0 +1,44 @@
+# docker-compose for development
+
+version: '3.8'
+
+services:
+
+  backend:
+    env_file:
+      - .env
+    build:
+      context: .
+      args:
+        user: www
+        uid: 80
+    restart: unless-stopped
+    volumes:
+      - ./app:/var/www/app
+      - ./bootstrap:/var/www/bootstrap
+      - ./config:/var/www/config
+      - ./database:/var/www/database
+      - ./public:/var/www/public
+      - ./resources:/var/www/resources
+      - ./routes:/var/www/routes
+      - ./storage:/var/www/storage
+      - ./.env:/var/www/.env
+      - ./artisan:/var/www/artisan
+      - ./server:/var/www/server
+    ports:
+    - "127.0.0.1:8000:8000"
+    depends_on:
+      - pgsql
+    command: "php artisan serve --host=0.0.0.0"
+
+  pgsql:
+    image: postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${DB_DATABASE}
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-q", "-d", "${DB_DATABASE}", "-U", "${DB_USERNAME}" ]
+    ports:
+    - "127.0.0.1:15432:5432"
