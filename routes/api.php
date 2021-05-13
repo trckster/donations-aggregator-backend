@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('ping', function () {
@@ -9,3 +10,7 @@ Route::get('ping', function () {
 
 Route::post('/login', [LoginController::class, 'login'])->name('login');
 //Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+
+Route::middleware('auth')->group(function () {
+    Route::get('me', UserController::class)->name('me');
+});
