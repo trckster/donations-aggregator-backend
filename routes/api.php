@@ -9,7 +9,6 @@ Route::get('ping', function () {
 })->name('ping');
 
 Route::post('/login', [LoginController::class, 'login'])->name('login');
-//Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
 Route::middleware('auth')->group(function () {
     Route::get('me', UserController::class)->name('me');
