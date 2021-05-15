@@ -19,6 +19,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $commission
  * @property string $comment
  * @property string $status
+ * @property array $additional_data
  * @property Carbon $paid_at
  * @property Carbon $created_at
  * @property Carbon $updated_at
@@ -27,7 +28,7 @@ class Donation extends Model
 {
     use HasFactory;
 
-    protected $hidden = [];
+    protected $guarded = [];
 
     const SOURCE_DONATEPAY = 'donatepay';
 
@@ -52,4 +53,8 @@ class Donation extends Model
             self::STATUS_TEST
         ];
     }
+
+    protected $casts = [
+        'additional_data' => 'array'
+    ];
 }

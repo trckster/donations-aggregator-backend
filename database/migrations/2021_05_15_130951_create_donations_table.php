@@ -24,6 +24,7 @@ class CreateDonationsTable extends Migration
             $table->bigInteger('commission');
             $table->text('comment');
             $table->string('status');
+            $table->jsonb('additional_data')->default('[]');
 
             $table->timestamp('paid_at');
             $table->timestamps();

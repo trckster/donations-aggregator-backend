@@ -26,14 +26,15 @@ class DonationFactory extends Factory
         $amount = rand(1, 30000) * 100;
 
         return [
-            'is_hidden' => $this->faker->boolean,
+            'is_hidden' => $this->faker->boolean(),
             'source' => Arr::random(Donation::getAvailableSources()),
             'external_id' => rand(0, 1000000),
-            'from' => $this->faker->name,
+            'from' => $this->faker->name(),
             'amount' => $amount,
             'commission' => (int) $amount * 0.15,
-            'comment' => $this->faker->text,
+            'comment' => $this->faker->text(),
             'status' => Arr::random(Donation::getAvailableStatuses()),
+            'additional_data' => [$this->faker->word() => $this->faker->word()],
             'paid_at' => Carbon::now()->subMinute()
         ];
     }
