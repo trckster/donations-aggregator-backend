@@ -24,7 +24,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('donations:load-from-donate-pay')->everyMinute();
+//        $schedule->command('donations:load-from-donate-pay')->everyMinute();
     }
 
     /**

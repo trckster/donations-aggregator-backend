@@ -6,6 +6,7 @@ use App\Models\Donation;
 use App\Services\API\DonatePay;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Log;
 
 class LoadDonationsFromDonatePay extends Command
 {
@@ -33,15 +34,12 @@ class LoadDonationsFromDonatePay extends Command
     public function handle()
     {
         $this->load();
-        sleep(20);
-        $this->load();
-        sleep(20);
-        $this->load();
     }
 
     public function load()
     {
         $donations = $this->api->loadDonations();
+        $new = 0;
 
         foreach ($donations as $donation) {
             if ($donation['type'] !== 'donation') {
@@ -55,7 +53,10 @@ class LoadDonationsFromDonatePay extends Command
             }
 
             $this->addDonation($donation);
+            $new++;
         }
+
+        Log::info("Donatepay, new donations count: $new");
     }
 
     public function addDonation(array $donation)

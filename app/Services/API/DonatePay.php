@@ -32,7 +32,7 @@ class DonatePay
             return Arr::get($data, 'data');
         }
 
-        Log::info('Bad answer from donatepay: ' . json_encode($data));
+        Log::error('Bad answer from donatepay: ' . json_encode($data));
 
         return [];
     }
