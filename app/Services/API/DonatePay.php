@@ -2,6 +2,7 @@
 
 namespace App\Services\API;
 
+use App\Models\Donation;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
@@ -23,7 +24,10 @@ class DonatePay
     public function loadDonations()
     {
         $data = Http::get($this->url, [
-            'access_token' => $this->apiKey
+            'access_token' => $this->apiKey,
+            'after' => Donation::query()->max('external_id'),
+            'type' => 'donation',
+            'limit' => 100
         ])->json();
 
         $status = Arr::get($data, 'status');

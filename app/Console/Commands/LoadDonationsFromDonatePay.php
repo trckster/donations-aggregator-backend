@@ -39,24 +39,12 @@ class LoadDonationsFromDonatePay extends Command
     public function load()
     {
         $donations = $this->api->loadDonations();
-        $new = 0;
 
         foreach ($donations as $donation) {
-            if ($donation['type'] !== 'donation') {
-                continue;
-            }
-
-            $known = Donation::query()->where('external_id', $donation['id'])->exists();
-
-            if ($known) {
-                continue;
-            }
-
             $this->addDonation($donation);
-            $new++;
         }
 
-        Log::info("Donatepay, new donations count: $new");
+        Log::info('Donatepay, new donations count: ' . count($donations));
     }
 
     public function addDonation(array $donation)
