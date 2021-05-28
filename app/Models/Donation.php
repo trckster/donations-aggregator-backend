@@ -17,7 +17,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $from
  * @property int $amount
  * @property int $commission
- * @property string $comment
+ * @property string $text
+ * @property string $admin_comment
  * @property string $status
  * @property array $additional_data
  * @property Carbon $paid_at

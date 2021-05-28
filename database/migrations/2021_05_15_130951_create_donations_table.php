@@ -22,7 +22,8 @@ class CreateDonationsTable extends Migration
             $table->string('from');
             $table->bigInteger('amount');
             $table->bigInteger('commission');
-            $table->text('comment');
+            $table->text('text');
+            $table->text('admin_comment')->default('');
             $table->string('status');
             $table->jsonb('additional_data')->default('[]');
 
