@@ -33,7 +33,7 @@ class DonationFactory extends Factory
             'amount' => $amount,
             'commission' => (int) $amount * 0.15,
             'text' => $this->faker->text(),
-            'admin_comment' => rand(0, 5) ? $this->faker->text() : '',
+            'admin_comment' => rand(0, 5) ? '' : $this->faker->text(),
             'status' => Arr::random(Donation::getAvailableStatuses()),
             'additional_data' => [$this->faker->word() => $this->faker->word()],
             'paid_at' => Carbon::now()->subMinutes(rand(1, 1000))->subSeconds(rand(1, 1000))
