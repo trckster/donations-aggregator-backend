@@ -17,4 +17,5 @@ Route::middleware('auth')->group(function () {
 
 Route::prefix('donations')->name('donations.')->group(function () {
     Route::get('', [DonationController::class, 'index'])->name('index');
+    Route::put('{donation}', [DonationController::class, 'update'])->name('update');
 });

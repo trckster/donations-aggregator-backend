@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Donation;
 use App\Services\DonationService;
 
 class DonationController extends Controller
@@ -25,5 +26,16 @@ class DonationController extends Controller
         ]);
 
         return $this->service->getDonations($data);
+    }
+
+    public function update(Donation $donation)
+    {
+        $data = request()->validate([
+            'is-hidden' => 'required|bool'
+        ]);
+
+        $donation->update(['is_hidden' => $data['is-hidden']]);
+
+        return $donation;
     }
 }

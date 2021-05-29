@@ -184,5 +184,53 @@ class DonationTest extends UserTestCase
                 ]
             ]);
     }
+
+    /** @test */
+    public function hideDonation()
+    {
+        /** @var Donation $donation */
+        $donation = Donation::factory()->create(['is_hidden' => false]);
+
+        $data = [
+            'donation' => $donation,
+            'is-hidden' => true
+        ];
+
+        $this->putJson(route('donations.update', $data))
+            ->assertStatus(200)
+            ->assertJson([
+                'id' => $donation->id,
+                'is_hidden' => true
+            ]);
+
+        $this->assertDatabaseHas('donations', [
+            'id' => $donation->id,
+            'is_hidden' => true
+        ]);
+    }
+
+    /** @test */
+    public function exposeDonation()
+    {
+        /** @var Donation $donation */
+        $donation = Donation::factory()->create(['is_hidden' => true]);
+
+        $data = [
+            'donation' => $donation,
+            'is-hidden' => false
+        ];
+
+        $this->putJson(route('donations.update', $data))
+            ->assertStatus(200)
+            ->assertJson([
+                'id' => $donation->id,
+                'is_hidden' => false
+            ]);
+
+        $this->assertDatabaseHas('donations', [
+            'id' => $donation->id,
+            'is_hidden' => false
+        ]);
+    }
 }
 
