@@ -31,10 +31,19 @@ class DonationController extends Controller
     public function update(Donation $donation)
     {
         $data = request()->validate([
-            'is-hidden' => 'required|bool'
+            'is-hidden' => 'bool',
+            'admin-message' => 'string'
         ]);
 
-        $donation->update(['is_hidden' => $data['is-hidden']]);
+        if (isset($data['is-hidden'])) {
+            $donation->is_hidden = $data['is-hidden'];
+        }
+
+        if (isset($data['admin-message'])) {
+            $donation->admin_comment = $data['admin-message'];
+        }
+
+        $donation->save();
 
         return $donation;
     }

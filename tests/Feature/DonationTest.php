@@ -232,5 +232,56 @@ class DonationTest extends UserTestCase
             'is_hidden' => false
         ]);
     }
+
+    /**
+     * @test
+     */
+    public function canAddAdminMessageToDonation()
+    {
+        /** @var Donation $donation */
+        $donation = Donation::factory()->create(['is_hidden' => true]);
+
+        $data = [
+            'donation' => $donation,
+            'admin-message' => 'Hey there! Say something about political prisoners!'
+        ];
+
+        $this->putJson(route('donations.update', $data))
+            ->assertStatus(200)
+            ->assertJson([
+                'id' => $donation->id,
+                'admin_comment' => $data['admin-message']
+            ]);
+
+        $this->assertDatabaseHas('donations', [
+            'id' => $donation->id,
+            'admin_comment' => $data['admin-message']
+        ]);
+    }
+
+    /**
+     * @test
+     */
+    public function canDeleteAdminMessageToDonation()
+    {
+        /** @var Donation $donation */
+        $donation = Donation::factory()->create(['is_hidden' => true]);
+
+        $data = [
+            'donation' => $donation,
+            'admin-message' => ''
+        ];
+
+        $this->putJson(route('donations.update', $data))
+            ->assertJson([
+                'id' => $donation->id,
+                'admin_comment' => ''
+            ]);
+
+        $this->assertDatabaseHas('donations', [
+            'id' => $donation->id,
+            'admin_comment' => ''
+        ]);
+    }
 }
 
