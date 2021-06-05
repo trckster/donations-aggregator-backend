@@ -56,7 +56,7 @@ class LoadDonationsFromDonatePay extends Command
             'amount' => (int)((double)$donation['sum'] * 100),
             'commission' => (int)((double)$donation['commission'] * 100),
             'status' => $this->mappedStatuses[$donation['status']],
-            'comment' => $donation['comment'],
+            'text' => $donation['comment'],
             'paid_at' => (new Carbon($donation['created_at']['date'], $donation['created_at']['timezone']))
                 ->setTimezone('UTC'),
             'additional_data' => [
