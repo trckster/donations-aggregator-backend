@@ -2,9 +2,11 @@
 
 namespace App\Models;
 
+use App\Events\DonationCreated;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Log;
 
 /**
  * Class Donation
@@ -58,4 +60,17 @@ class Donation extends Model
     protected $casts = [
         'additional_data' => 'array'
     ];
+
+    public static function boot()
+    {
+        parent::boot();
+
+        self::created(function (Donation $donation) {
+            event(new DonationCreated($donation));
+        });
+
+        self::updated(function (Donation $donation) {
+            Log::info('updated');
+        });
+    }
 }
