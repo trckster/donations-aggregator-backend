@@ -3,10 +3,10 @@
 namespace App\Models;
 
 use App\Events\DonationCreated;
+use App\Events\DonationUpdated;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Log;
 
 /**
  * Class Donation
@@ -70,7 +70,7 @@ class Donation extends Model
         });
 
         self::updated(function (Donation $donation) {
-            Log::info('updated');
+            event(new DonationUpdated($donation));
         });
     }
 }
