@@ -39,4 +39,15 @@ class DonationFactory extends Factory
             'paid_at' => Carbon::now()->subMinutes(rand(1, 1000))->subSeconds(rand(1, 1000))
         ];
     }
+
+    public function brandNew()
+    {
+        return $this->state(function () {
+            return [
+                'paid_at' => now()->subSeconds(5),
+                'admin_comment' => '',
+                'is_hidden' => false
+            ];
+        });
+    }
 }
