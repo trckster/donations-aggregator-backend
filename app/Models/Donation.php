@@ -66,7 +66,9 @@ class Donation extends Model
         parent::boot();
 
         self::created(function (Donation $donation) {
-            event(new DonationCreated($donation));
+            if ($donation->status === Donation::STATUS_SUCCESS) {
+                event(new DonationCreated($donation));
+            }
         });
 
         self::updated(function (Donation $donation) {

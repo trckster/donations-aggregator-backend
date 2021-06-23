@@ -17,6 +17,7 @@ class DonationService
 
         return Donation::query()
             ->where('is_hidden', $isHidden)
+            ->where('status', Donation::STATUS_SUCCESS)
             ->orderBy($sortField, $sortOrder)
             ->skip($skip)
             ->limit($limit)
