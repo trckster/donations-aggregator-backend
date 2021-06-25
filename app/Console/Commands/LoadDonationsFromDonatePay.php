@@ -12,17 +12,14 @@ class LoadDonationsFromDonatePay extends Command
 {
     protected $signature = 'donations:load-from-donate-pay';
 
-    private $mappedStatuses = [
+    private array $mappedStatuses = [
         'success' => Donation::STATUS_SUCCESS,
         'cancel' => Donation::STATUS_CANCEL,
         'wait' => Donation::STATUS_WAIT,
         'user' => Donation::STATUS_TEST
     ];
 
-    /**
-     * @var DonatePay
-     */
-    private $api;
+    private DonatePay $api;
 
     public function __construct(DonatePay $api)
     {
@@ -39,16 +36,25 @@ class LoadDonationsFromDonatePay extends Command
     public function load()
     {
         $donations = $this->api->loadDonations();
+        $newDonations = 0;
 
         foreach ($donations as $donation) {
-            $this->addDonation($donation);
+            if ($this->addDonation($donation)) {
+                $newDonations += 1;
+            }
         }
 
-        Log::info('Donatepay, new donations count: ' . count($donations));
+        Log::info("Donatepay, new donations count: $newDonations");
     }
 
-    public function addDonation(array $donation)
+    public function addDonation(array $donation): bool
     {
+        $alreadyExists = Donation::query()->where('external_id', $donation['id'])->exists();
+
+        if ($alreadyExists) {
+            return false;
+        }
+
         Donation::query()->create([
             'source' => Donation::SOURCE_DONATEPAY,
             'external_id' => $donation['id'],
@@ -65,5 +71,7 @@ class LoadDonationsFromDonatePay extends Command
                 'vars' => $donation['vars']
             ]
         ]);
+
+        return true;
     }
 }

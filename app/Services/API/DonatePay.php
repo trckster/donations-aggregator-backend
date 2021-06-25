@@ -14,7 +14,7 @@ class DonatePay
      */
     private $apiKey;
 
-    private $url = 'https://donatepay.ru/api/v1/transactions';
+    private string $url = 'https://donatepay.ru/api/v1/transactions';
 
     public function __construct()
     {
@@ -25,8 +25,8 @@ class DonatePay
     {
         $data = Http::get($this->url, [
             'access_token' => $this->apiKey,
-            'after' => Donation::query()->max('external_id'),
             'type' => 'donation',
+            'status' => 'success',
             'limit' => 100
         ])->json();
 
