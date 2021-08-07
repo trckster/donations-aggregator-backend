@@ -39,6 +39,9 @@ class LoadDonationsFromDonatePay extends Command
         $newDonations = 0;
 
         foreach ($donations as $donation) {
+            /**
+             * Project has small load so we can afford 100 queries every ~20 sec
+             */
             if ($this->addDonation($donation)) {
                 $newDonations += 1;
             }
