@@ -30,6 +30,8 @@ class LoadDonationsFromDonatePay extends Command
 
     public function handle()
     {
+        Log::info('[DonatePay] Command started');
+
         $this->load();
     }
 
@@ -40,14 +42,14 @@ class LoadDonationsFromDonatePay extends Command
 
         foreach ($donations as $donation) {
             /**
-             * Project has small load so we can afford 100 queries every ~20 sec
+             * Project has small load, so we can afford 100 queries every ~20 sec
              */
             if ($this->addDonation($donation)) {
                 $newDonations += 1;
             }
         }
 
-        Log::info("Donatepay, new donations count: $newDonations");
+        Log::info("[DonatePay] New donations count: $newDonations");
     }
 
     public function addDonation(array $donation): bool
